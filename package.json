@@ -2,9 +2,15 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Clarichain backend 1.0 for MVP",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,8 +24,10 @@
   "homepage": "https://github.com/Clarichain/backend#readme",
   "dependencies": {
     "@supabase/supabase-js": "^2.52.0",
+    "@lucid-evolution/lucid": "^0.4.29",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
@@ -31,6 +39,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.14",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "nodemon": "^3.1.10"
   }
 }

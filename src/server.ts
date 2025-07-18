@@ -5,6 +5,10 @@ import "dotenv/config"
 
 //router imports
 import userRoutes from "./routes/user.route"
+import lucidRoutes from "./routes/lucid.route";
+import { run_checks } from "./config/lucid";
+
+run_checks();
 
 //
 const app = express()
@@ -29,7 +33,7 @@ app.use(cors({
         
     },
     credentials: true,
-    methods: ["GET", "POST", "DELETE", "PUT"],
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     allowedHeaders: ["Content-Type"] //add as required
 }))
 
@@ -46,6 +50,7 @@ setInterval(()=>{
 
 //app routes
 app.use('/user', userRoutes)
+app.use('/lucid', lucidRoutes)
 //process events
 
 const PORT = process.env.PORT || 5000;
