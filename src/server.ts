@@ -4,9 +4,9 @@ import cookieParser from "cookie-parser";
 import "dotenv/config"
 
 //router imports
-import userRoutes from "./routes/user.route"
+import authRoutes from "./routes/auth.route"
 
-//
+//defining App
 const app = express()
 const allowedOrigins = [
     'localhost:3000', //development
@@ -28,11 +28,12 @@ app.use(cors({
         return callback(null, true)
         
     },
-    credentials: true,
-    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true, //for cookie access
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     allowedHeaders: ["Content-Type"] //add as required
 }))
 
+//default middleware
 app.use(express.json());
 app.use(cookieParser());
 
@@ -42,11 +43,12 @@ setInterval(()=>{
         global.gc()
         console.log("Forced garbage collection")
     }
-}, 6000)
+}, 6000);
 
 //app routes
-app.use('/user', userRoutes)
+app.use('/auth', authRoutes);
+
 //process events
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, ()=>console.log(`server running on port ${PORT}`))
+app.listen(PORT, ()=>console.log(`server running on port ${PORT}`));
