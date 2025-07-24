@@ -1,15 +1,18 @@
 import jwt from 'jsonwebtoken';
 import { jwtConfig } from '../config/jwt';
+import "dotenv/config"
 
-export const generateAccessToken = (payload: object) =>
-  jwt.sign(payload, jwtConfig.accessTokenSecret, {
-    expiresIn: jwtConfig.accessTokenExpiresIn,
-  });
+interface payloadInterace{
+  id: string,
+  email: string | undefined,
+}
 
-export const generateRefreshToken = (payload: object) =>
-  jwt.sign(payload, jwtConfig.refreshTokenSecret, {
-    expiresIn: jwtConfig.refreshTokenExpiresIn,
-  });
+
+export const generateAccessToken = (payload: any) =>
+  jwt.sign(payload, jwtConfig.accessTokenSecret, { expiresIn: "15min"});
+
+export const generateRefreshToken = (payload: payloadInterace) =>
+  jwt.sign(payload, jwtConfig.refreshTokenSecret, { expiresIn: "7d"} );
 
 export const verifyAccessToken = (token: string) =>
   jwt.verify(token, jwtConfig.accessTokenSecret);
