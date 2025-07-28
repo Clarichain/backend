@@ -9,9 +9,10 @@ interface payloadInterace{
 
 
 export const generateAccessToken = (payload: any) =>
-  jwt.sign(payload, jwtConfig.accessTokenSecret, { expiresIn: "15min"});
+  // jwt.sign(payload, jwtConfig.accessTokenSecret, { expiresIn: (jwtConfig.accessTokenExpiresIn as string) });
+  jwt.sign(payload, jwtConfig.accessTokenSecret, { expiresIn: "15min" });
 
-export const generateRefreshToken = (payload: payloadInterace) =>
+export const generateRefreshToken = (payload: any) =>
   jwt.sign(payload, jwtConfig.refreshTokenSecret, { expiresIn: "7d"} );
 
 export const verifyAccessToken = (token: string) =>

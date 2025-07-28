@@ -46,7 +46,11 @@ setInterval(()=>{
 }, 6000);
 
 //app routes
-app.use('/auth', authRoutes);
+///Authentication will be handled on the frontend except for encryption and decryption of keys
+///Backend authentication is redacted but implementations will not be deleted
+// app.use('/auth', authRoutes);
+
+app.use('/media', )
 
 //process events
 
