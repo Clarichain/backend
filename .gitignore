@@ -54,3 +54,11 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+#backend auth logic
+/src/middlewares/auth.middleware.ts
+/src/controllers/auth.controller.ts
+/src/services/auth.service.ts
+/src/routes/auth.route.ts
+/src/config/jwt.ts
+/src/utils/jwt.utils.ts
