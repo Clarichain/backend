@@ -1,12 +1,13 @@
 import { Router } from "express";
 import upload from "../middlewares/upload";
-import {  } from "../controllers/contract.controller"
+import { uploadContract } from "../controllers/contract.controller"
 
 const router = Router()
 
 router.post(
     "/upload",
-    upload.single("contract")
+    upload.single("contract"),
+    uploadContract,
 )
 
 export default router
