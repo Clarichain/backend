@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import "dotenv/config"
 
 //router imports
-import authRoutes from "./routes/auth.route"
+import contractRoutes from "./routes/contract.route"
 
 //defining App
 const app = express()
@@ -50,7 +50,7 @@ setInterval(()=>{
 ///Backend authentication is redacted but implementations will not be deleted
 // app.use('/auth', authRoutes);
 
-app.use('/media', )
+app.use('/contracts', contractRoutes)
 
 //process events
 

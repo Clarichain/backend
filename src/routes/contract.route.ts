@@ -6,7 +6,7 @@ const router = Router()
 
 router.post(
     "/upload",
-    upload.single("contract"),
+    upload.single("document"),
     uploadContract,
 )
 
