@@ -19,6 +19,7 @@ interface ContractInterface {
     description: string;
     status: string;
     type: ContractType;
+    url?: string;
 }
 export const createContract = async ({ title, description, status, type }: ContractInterface, documentUrl: string) => {
     const { data: contract, error } = await supabase.from("documents").insert([{
