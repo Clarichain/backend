@@ -1,5 +1,8 @@
-import { supabase } from '../config/supabase';
+import { SupabaseClient } from '@supabase/supabase-js';
+// import { supabaseAdmin } from '../config/supabase';
 
+
+///Each service will use the supabase client defined with the user session passed from the authorization middleware
 enum ContractStatus {
     minted = "MINTED",
     signed = "SIGNED",
@@ -10,6 +13,8 @@ enum ContractStatus {
 ///Add more types as needed
 type ContractType = "Contract" | "Policy" |  "Thesis" 
 
+
+///helper functions
 const getCurrentTime = () =>{
     return new Date().toISOString()
 }
@@ -21,7 +26,7 @@ interface ContractInterface {
     type: ContractType;
     url?: string;
 }
-export const createContract = async ({ title, description, status, type }: ContractInterface, documentUrl: string) => {
+export const createContract = async (  supabase:SupabaseClient, { title, description, status = "pending", type }: ContractInterface, documentUrl: string) => {
     const { data: contract, error } = await supabase.from("documents").insert([{
         title,
         description,
@@ -34,7 +39,7 @@ export const createContract = async ({ title, description, status, type }: Contr
     return contract
 }
 
-export const updateContract = async (id:string, data: Partial<ContractInterface>) => {
+export const updateContract = async (supabase:SupabaseClient, id:string, data: Partial<ContractInterface>) => {
     const { data: updatedContract, error } = await supabase
     .from("contracts")
     .update({
@@ -47,7 +52,7 @@ export const updateContract = async (id:string, data: Partial<ContractInterface>
   return updatedContract;
 }
 
-export const deleteContract = async (id: string) => {
+export const deleteContract = async (supabase:SupabaseClient, id: string) => {
     const { error } = await supabase.
     from('documents')
     .delete()
@@ -55,7 +60,7 @@ export const deleteContract = async (id: string) => {
     if (error) throw error;
 }
 
-export const getContract = async (id: string) => {
+export const getContract = async (supabase:SupabaseClient, id: string) => {
     const { data: contract, error} = await supabase
     .from('documents')
     .select()
@@ -64,7 +69,13 @@ export const getContract = async (id: string) => {
     return contract
 }
 
-///Pending user relations
-/*
-export const allContract = async (id: string) => {}
-*/
+
+//implement RSL to secure supabase requests
+export const getAllUserContract = async (supabase:SupabaseClient, id: string) => {
+    const { data: contracts, error} = await supabase
+    .from('documents')
+    .select("*")
+
+    if(error) throw error;
+    return contracts
+}

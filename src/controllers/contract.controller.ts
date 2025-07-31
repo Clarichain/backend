@@ -11,6 +11,12 @@ export const uploadContractController = async (req: Request, res: Response) => {
             throw new Error("missing document")
         }
 
+        if(!req.user || !req.supabase){
+            res.status(400).json({"error":"Undefined user context"})
+            return
+        }
+
+        const supabase = req.supabase
         const documentUrl = req.file.path
         const contract = await contractService.createContract(req.body, documentUrl)
         res.status(200).json(contract)
@@ -29,7 +35,14 @@ export const uploadContractController = async (req: Request, res: Response) => {
 export const getContractController = async (req: Request, res:Response) => {
     try{
         const id = req.params.id
-        const contract = await contractService.getContract(id)
+
+         if(!req.user || !req.supabase){
+            res.status(400).json({"error":"Undefined user context"})
+            return
+        }
+
+        const supabase = req.supabase
+        const contract = await contractService.getContract(supabase, id)
         res.status(200).json(contract)
     } catch(err){
         if(err instanceof PostgrestError){
@@ -43,7 +56,13 @@ export const getContractController = async (req: Request, res:Response) => {
 export const updateContractController = async (req: Request, res: Response) => {
     try{
         const id = req.params.id;
-        const contract = await contractService.updateContract(id, req.body)
+        if(!req.user || !req.supabase){
+            res.status(400).json({"error":"Undefined user context"})
+            return
+        }
+
+        const supabase = req.supabase
+        const contract = await contractService.updateContract(supabase, id, req.body)
         res.status(200).json(contract)
     }catch(err: unknown){
         if(err instanceof PostgrestError){
@@ -57,7 +76,13 @@ export const updateContractController = async (req: Request, res: Response) => {
 export const deleteContractController = async (req: Request, res:Response) => {
     try{
         const id = req.params.id
-        await contractService.deleteContract(id)
+        if(!req.user || !req.supabase){
+            res.status(400).json({"error":"Undefined user context"})
+            return
+        }
+
+        const supabase = req.supabase
+        await contractService.deleteContract(supabase, id)
         res.status(200).json({"message":"Contract deleted successfully"})
     } catch(err){
         if(err instanceof PostgrestError){
