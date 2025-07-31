@@ -18,7 +18,6 @@ router.get(
     getContractController,
 )
 
-//expect user id in headers. Middleware for auth guard
 router.get(
     "/get/all",
     verifySupabaseAuthorization,

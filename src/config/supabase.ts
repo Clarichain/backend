@@ -6,11 +6,11 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!; // For backen
 
 export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
 if (supabaseAdmin){
-    console.log("backend supabase connected")
+    console.log("backend supabase Admin client created")
 }
 
 export const createSupabaseClientWithToken = (token: string): SupabaseClient => {
-    if(!supabaseUrl || !supabaseServiceKey){
+    if(!supabaseUrl || !supabaseAnonKey){
         throw new Error("Environment variables not defined")
     }
 

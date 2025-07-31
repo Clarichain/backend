@@ -16,9 +16,8 @@ export const uploadContractController = async (req: Request, res: Response) => {
             return
         }
 
-        const supabase = req.supabase
         const documentUrl = req.file.path
-        const contract = await contractService.createContract(supabase, req.body, documentUrl)
+        const contract = await contractService.createContract(req.supabase, req.body, documentUrl)
         res.status(200).json(contract)
     }catch(err){
 		if(err instanceof PostgrestError){
@@ -34,15 +33,21 @@ export const uploadContractController = async (req: Request, res: Response) => {
 //
 export const getContractController = async (req: Request, res:Response) => {
     try{
-        const id = req.params.id
-
-         if(!req.user || !req.supabase){
+        
+        if(!req.user || !req.supabase){
             res.status(400).json({"error":"Undefined user context"})
             return
         }
-
-        const supabase = req.supabase
-        const contract = await contractService.getContract(supabase, id)
+        
+        const id = req.params.id
+        //logic to differentiate single get and all get
+        if(id === undefined){
+            console.log('all routes')
+            const contracts = await contractService.getAllContract(req.supabase)
+            res.status(200).json(contracts)
+            return
+        }
+        const contract = await contractService.getContract(req.supabase, id)
         res.status(200).json(contract)
     } catch(err){
         if(err instanceof PostgrestError){
@@ -61,8 +66,7 @@ export const updateContractController = async (req: Request, res: Response) => {
             return
         }
 
-        const supabase = req.supabase
-        const contract = await contractService.updateContract(supabase, id, req.body)
+        const contract = await contractService.updateContract(req.supabase, id, req.body)
         res.status(200).json(contract)
     }catch(err: unknown){
         if(err instanceof PostgrestError){
@@ -81,8 +85,7 @@ export const deleteContractController = async (req: Request, res:Response) => {
             return
         }
 
-        const supabase = req.supabase
-        await contractService.deleteContract(supabase, id)
+        await contractService.deleteContract(req.supabase, id)
         res.status(200).json({"message":"Contract deleted successfully"})
     } catch(err){
         if(err instanceof PostgrestError){

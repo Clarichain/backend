@@ -71,7 +71,7 @@ export const getContract = async (supabase:SupabaseClient, id: string) => {
 
 
 //implement RSL to secure supabase requests
-export const getAllUserContract = async (supabase:SupabaseClient, id: string) => {
+export const getAllContract = async (supabase:SupabaseClient) => {
     const { data: contracts, error} = await supabase
     .from('documents')
     .select("*")
