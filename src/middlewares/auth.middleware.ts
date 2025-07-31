@@ -29,7 +29,9 @@ export const verifyAccessJWT = async (req: Request, res: Response, next: NextFun
 
 export const verifySupabaseAuthorization = async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
-    console.log(authHeader);
+    console.log("request authHeader: ", authHeader);
+    //test
+    // console.log("request authHeader: ", req.headers.authorization)
     const supabaseAccessToken = authHeader && authHeader.split(' ')[1]
 
     if(!supabaseAccessToken){ res.status(400).json({ message:"No access token" }); return }
@@ -45,6 +47,7 @@ export const verifySupabaseAuthorization = async (req: Request, res: Response, n
         req.supabase = supabase
         next()
     }catch(err){
-        res.status(500).json({ error:err }) 
+        res.status(500).json({ error:err })
+        return
     }
 }

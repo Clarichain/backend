@@ -1,8 +1,8 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 // import { supabaseAdmin } from '../config/supabase';
 
-
 ///Each service will use the supabase client defined with the user session passed from the authorization middleware
+
 enum ContractStatus {
     minted = "MINTED",
     signed = "SIGNED",

@@ -18,7 +18,7 @@ export const uploadContractController = async (req: Request, res: Response) => {
 
         const supabase = req.supabase
         const documentUrl = req.file.path
-        const contract = await contractService.createContract(req.body, documentUrl)
+        const contract = await contractService.createContract(supabase, req.body, documentUrl)
         res.status(200).json(contract)
     }catch(err){
 		if(err instanceof PostgrestError){
