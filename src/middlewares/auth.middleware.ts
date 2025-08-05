@@ -40,14 +40,17 @@ export const verifySupabaseAuthorization = async (req: Request, res: Response, n
         const { data: { user }, error } = await supabase.auth.getUser()
 
         if(!user || error){
-            res.status(401).json({"error":"Unauthorzed access or expired token"})
+            throw error
+            // res.status(401).json({"error":"Unauthorzed access or expired token"})
+            // return
         }
         
         req.user = user;
         req.supabase = supabase
         next()
     }catch(err){
-        res.status(500).json({ error:err })
+        console.error(err)
+        res.status(500).json({ "error":err })
         return
     }
 }
