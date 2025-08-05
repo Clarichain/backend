@@ -2,7 +2,7 @@ import { Response, Request, NextFunction } from "express"
 import jwt from "jsonwebtoken";
 import { jwtConfig } from "../config/jwt";
 import { createSupabaseClientWithToken } from "../config/supabase";
-import { User } from "@supabase/supabase-js";
+import { User, AuthError } from "@supabase/supabase-js";
 
 declare global{
     namespace Express{
@@ -41,8 +41,6 @@ export const verifySupabaseAuthorization = async (req: Request, res: Response, n
 
         if(!user || error){
             throw error
-            // res.status(401).json({"error":"Unauthorzed access or expired token"})
-            // return
         }
         
         req.user = user;
@@ -50,7 +48,9 @@ export const verifySupabaseAuthorization = async (req: Request, res: Response, n
         next()
     }catch(err){
         console.error(err)
-        res.status(500).json({ "error":err })
+        if(err instanceof AuthError){
+            res.status(500).json({ "error":"User not found" })
+        }
         return
     }
 }
